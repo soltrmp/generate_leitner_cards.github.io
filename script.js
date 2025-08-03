@@ -2,12 +2,19 @@
 let flashcards = [];
 
 // Charger flashcards.csv au démarrage
+// event listener load pour inclure le listing des fichiers
 window.addEventListener("load", async () => {
+  await listCSVFiles(); // Lister les fichiers disponibles
+  
+  // Charger flashcards.csv par défaut si disponible
   try {
-    const response = await fetch("flashcards.csv");
-    if (response.ok) {
-      const csv = await response.text();
-      parseCSV(csv);
+    const selector = document.getElementById('csv-selector');
+    const defaultFile = Array.from(selector.options)
+      .find(opt => opt.value === 'flashcards.csv');
+    
+    if (defaultFile) {
+      selector.value = 'flashcards.csv';
+      await loadCSVFile('flashcards.csv');
     }
   } catch (err) {
     console.warn("flashcards.csv non trouvé ou inaccessible. Démarrage vide.");
@@ -16,8 +23,39 @@ window.addEventListener("load", async () => {
   }
 });
 
-// Parser le CSV
+// Ajouter cette fonction pour charger un fichier CSV sélectionné
+async function loadCSVFile(filename) {
+  try {
+    const response = await fetch(filename);
+    if (response.ok) {
+      const csv = await response.text();
+      parseCSV(csv);
+      renderFlashcards();
+    }
+  } catch (err) {
+    console.error(`Erreur lors du chargement de ${filename}:`, err);
+    alert(`Impossible de charger ${filename}`);
+  }
+}
+
+// Ajouter l'event listener pour le bouton de chargement
+document.getElementById("load-btn").addEventListener("click", async () => {
+  const selector = document.getElementById('csv-selector');
+  const selectedFile = selector.value;
+  
+  if (selectedFile) {
+    await loadCSVFile(selectedFile);
+  } else {
+    alert("Veuillez sélectionner un fichier CSV");
+  }
+});
+
+
+
+
+// parseCSV pour vider les flashcards avant de charger
 function parseCSV(csv) {
+  flashcards = []; // Vider le tableau avant de charger
   flashcards = csv
     .split("\n")
     .slice(1)
@@ -75,6 +113,33 @@ document.getElementById("export-btn").addEventListener("click", () => {
   document.body.removeChild(link);
 });
 
+// Ajouter cette fonction pour lister les fichiers CSV
+async function listCSVFiles() {
+  try {
+    // Dans GitHub Pages, on peut utiliser l'API GitHub ou simuler un listing
+    // Cette solution utilise une approche simple pour GitHub Pages
+    const response = await fetch('./');
+    if (!response.ok) return;
+    
+    const html = await response.text();
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const links = doc.querySelectorAll('a[href$=".csv"]');
+    
+    const selector = document.getElementById('csv-selector');
+    links.forEach(link => {
+      const filename = link.getAttribute('href');
+      const option = document.createElement('option');
+      option.value = filename;
+      option.textContent = filename;
+      selector.appendChild(option);
+    });
+  } catch (err) {
+    console.error("Erreur lors du listing des fichiers CSV:", err);
+  }
+}
+
+
 // Gestion des fichiers image
 document.getElementById("browse-question-img").onclick = () => {
   document.getElementById("question_image_input").click();
@@ -123,7 +188,6 @@ document.getElementById("flashcard-form").addEventListener("submit", (e) => {
   renderFlashcards();
 });
 
-// ... (le reste du script.js inchangé jusqu'à deleteCard)
 
 // Supprimer une flashcard + indiquer les images à supprimer manuellement
 function deleteCard(index) {
