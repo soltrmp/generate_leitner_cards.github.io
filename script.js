@@ -71,7 +71,7 @@ function parseCSV(csv) {
 async function fetchCSVFiles() {
   try {
     // Utilisation de l'API GitHub pour lister les fichiers
-    const response = await fetch('https://api.github.com/repos/[votre-utilisateur]/[votre-repo]/contents/');
+    const response = await fetch('https://api.github.com/repos/soltrmp/generate_leitner_cards.github.io/contents/');
     if (response.ok) {
       const files = await response.json();
       const csvFiles = files.filter(file => file.name.endsWith('.csv'));
