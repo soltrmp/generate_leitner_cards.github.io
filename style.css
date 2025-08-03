@@ -1,0 +1,52 @@
+/* style.css */
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded font-medium transition;
+  }
+  .btn-blue {
+    @apply bg-blue-500 hover:bg-blue-600 text-white;
+  }
+  .btn-green {
+    @apply bg-green-500 hover:bg-green-600 text-white;
+  }
+  .btn-red {
+    @apply bg-red-500 hover:bg-red-600 text-white;
+  }
+  .btn-indigo {
+    @apply bg-indigo-500 hover:bg-indigo-600 text-white;
+  }
+}
+
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+/* Conteneur d'image flexible et réactif */
+.img-container {
+  @apply w-full h-48 md:h-64 lg:h-72 bg-gray-100 rounded border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden;
+}
+
+.img-container img {
+  @apply max-w-full max-h-full object-scale-down transition-transform duration-300;
+}
+
+.img-container img:hover {
+  @apply scale-105;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .container {
+    padding: 1rem;
+  }
+  h1 {
+    @apply text-2xl;
+  }
+  .img-container {
+    @apply h-36;
+  }
+}

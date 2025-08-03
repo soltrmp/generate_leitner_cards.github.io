@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Flashcards - Éditeur</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans">
+  <div class="container mx-auto p-6 max-w-5xl">
+    <h1 class="text-3xl font-bold text-center mb-6 text-indigo-700">Éditeur de Flashcards</h1>
+
+    <!-- Accordéon Instructions -->
+    <div class="mb-6 bg-white rounded-lg shadow-md overflow-hidden">
+      <button id="toggle-instructions" class="w-full p-4 text-left font-semibold bg-indigo-100 hover:bg-indigo-200 transition">
+        📚 Instructions (cliquez pour afficher/masquer)
+      </button>
+      <div id="instructions" class="p-4 bg-indigo-50 hidden">
+        <ul class="list-disc pl-5 space-y-2">
+          <li>Ajoutez ou éditez des flashcards directement dans la liste.</li>
+          <li>Modifiez le texte ou changez l’image avec le bouton "Parcourir".</li>
+          <li>Supprimez une carte avec la corbeille.</li>
+          <li>Le <code>box_number</code> et la <code>last_reviewed</code> sont mis à jour à l’export.</li>
+          <li>Exportez en CSV avec le nom souhaité.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Formulaire d'ajout -->
+    <form id="flashcard-form" class="bg-white p-6 rounded-lg shadow-md mb-6 space-y-5">
+      <div class="grid md:grid-cols-2 gap-6">
+        <div>
+          <label class="block font-medium mb-1">Contenu de la question (texte)</label>
+          <textarea id="question_content" class="w-full p-2 border rounded focus:ring focus:ring-indigo-300" rows="2"></textarea>
+
+          <label class="block font-medium mt-3 mb-1">Image de la question</label>
+          <div class="flex items-center space-x-3">
+            <button type="button" id="browse-question-img" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Parcourir</button>
+            <span id="question-img-name" class="text-gray-500">Aucun fichier</span>
+          </div>
+          <input type="file" id="question_image_input" accept="image/*" class="hidden" data-folder="images_questions" />
+        </div>
+
+        <div>
+          <label class="block font-medium mb-1">Contenu de la réponse (texte)</label>
+          <textarea id="answer_content" class="w-full p-2 border rounded focus:ring focus:ring-indigo-300" rows="3"></textarea>
+
+          <label class="block font-medium mt-3 mb-1">Image de la réponse</label>
+          <div class="flex items-center space-x-3">
+            <button type="button" id="browse-answer-img" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Parcourir</button>
+            <span id="answer-img-name" class="text-gray-500">Aucun fichier</span>
+          </div>
+          <input type="file" id="answer_image_input" accept="image/*" class="hidden" data-folder="images_answers" />
+        </div>
+      </div>
+
+      <button type="submit" class="w-full py-3 bg-indigo-600 text-white font-semibold rounded hover:bg-indigo-700 transition">
+        Ajouter une nouvelle flashcard
+      </button>
+    </form>
+
+    <!-- Export CSV -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+      <h2 class="text-xl font-semibold mb-3">Exporter les flashcards</h2>
+      <div class="flex space-x-3">
+        <input type="text" id="filename" placeholder="Nom du fichier (ex: mes_flashcards.csv)" class="flex-1 p-2 border rounded" value="flashcards.csv" />
+        <button id="export-btn" class="px-6 py-2 bg-purple-600 text-white rounded hover:bg-purple-700">Exporter CSV</button>
+      </div>
+    </div>
+
+    <!-- Liste des flashcards (éditables) -->
+    <div class="bg-white p-6 rounded-lg shadow-md">
+      <h2 class="text-xl font-semibold mb-4">Flashcards actuelles (cliquez pour éditer)</h2>
+      <div id="flashcards-list" class="space-y-6">
+        <!-- Rempli dynamiquement -->
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
