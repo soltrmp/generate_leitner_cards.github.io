@@ -16,16 +16,65 @@
       <button id="toggle-instructions" class="w-full p-4 text-left font-semibold bg-indigo-100 hover:bg-indigo-200 transition">
         📚 Instructions (cliquez pour afficher/masquer)
       </button>
-      <div id="instructions" class="p-4 bg-indigo-50 hidden">
-        <ul class="list-disc pl-5 space-y-2">
-          <li>Ajoutez ou éditez des flashcards directement dans la liste.</li>
-          <li>Modifiez le texte ou changez l’image avec le bouton "Parcourir".</li>
-          <li>Supprimez une carte avec la corbeille.</li>
-          <li>Le <code>box_number</code> et la <code>last_reviewed</code> sont mis à jour à l’export.</li>
-          <li>Exportez en CSV avec le nom souhaité.</li>
-        </ul>
+
+      <div id="instructions" class="p-4 bg-indigo-50 rounded-lg card-hover">
+        <h2 class="text-xl font-bold mb-4 text-indigo-700">Mode d'emploi - Création de cartes</h2>
+        
+        <div class="space-y-4">
+          <section class="bg-white p-4 rounded-lg border border-gray-200">
+            <h3 class="font-semibold text-lg mb-2 text-blue-600 flex items-center">
+              <span class="btn btn-blue mr-2 px-2 py-1 text-sm">1</span>
+              Préparation des images
+            </h3>
+            <ul class="list-disc pl-8 space-y-2 text-gray-700">
+              <li>Choisissez des images pour les questions et les réponses (étape la plus longue)</li>
+              <li class="mt-2 font-medium">Pour les questions :</li>
+              <ul class="list-circle pl-5">
+                <li>Placer les images dans le répertoire <code class="bg-gray-100 px-1 rounded">images_questions</code></li>
+                <li>Nommer les fichiers avec <code class="bg-gray-100 px-1 rounded">_Q</code> à la fin (ex: <code class="bg-gray-100 px-1 rounded">histoire_Q.jpg</code>)</li>
+              </ul>
+              <li class="mt-2 font-medium">Pour les réponses :</li>
+              <ul class="list-circle pl-5">
+                <li>Placer les images dans le répertoire <code class="bg-gray-100 px-1 rounded">images_answers</code></li>
+                <li>Nommer les fichiers avec <code class="bg-gray-100 px-1 rounded">_R</code> à la fin (ex: <code class="bg-gray-100 px-1 rounded">histoire_R.jpg</code>)</li>
+              </ul>
+            </ul>
+          </section>
+
+          <section class="bg-white p-4 rounded-lg border border-gray-200">
+            <h3 class="font-semibold text-lg mb-2 text-green-600 flex items-center">
+              <span class="btn btn-green mr-2 px-2 py-1 text-sm">2</span>
+              Composition des cartes
+            </h3>
+            <ul class="list-disc pl-8 space-y-2 text-gray-700">
+              <li>Utilisez le bouton <span class="btn btn-blue btn-sm">Parcourir</span> pour sélectionner :</li>
+              <ul class="list-circle pl-5">
+                <li>L'image de question depuis <code class="bg-gray-100 px-1 rounded">images_questions</code></li>
+                <li>L'image de réponse depuis <code class="bg-gray-100 px-1 rounded">images_answers</code></li>
+              </ul>
+              <li>Ajoutez du texte complémentaire ou laissez les champs vides si nécessaire</li>
+              <li>Modifiez à tout moment le texte ou l'image avec <span class="btn btn-blue btn-sm">Parcourir</span></li>
+            </ul>
+          </section>
+
+          <section class="bg-white p-4 rounded-lg border border-gray-200">
+            <h3 class="font-semibold text-lg mb-2 text-red-600 flex items-center">
+              <span class="btn btn-red mr-2 px-2 py-1 text-sm">3</span>
+              Export final
+            </h3>
+            <ul class="list-disc pl-8 space-y-2 text-gray-700">
+              <li>Exportez en CSV avec le nom souhaité</li>
+              <li><strong>Ne pas inclure</strong> l'extension <code class="bg-gray-100 px-1 rounded">.csv</code> dans le nom du fichier</li>
+            </ul>
+          </section>
+        </div>
       </div>
+
+
+      
     </div>
+
+
     <div class="bg-white p-6 rounded-lg shadow-md mb-6">
       <h2 class="text-xl font-semibold mb-3">Charger un fichier CSV</h2>
       <div class="flex space-x-3">
@@ -47,7 +96,7 @@
             <button type="button" id="browse-question-img" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Parcourir</button>
             <span id="question-img-name" class="text-gray-500">Aucun fichier</span>
           </div>
-          <input type="file" id="question_image_input" accept="image/*" class="hidden" data-folder="images_questions" />
+          <input type="file" id="question_image_input" accept="image/*" class="hidden" data-folder="images_questions" webkitdirectory directory />
         </div>
 
         <div>
@@ -59,7 +108,7 @@
             <button type="button" id="browse-answer-img" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Parcourir</button>
             <span id="answer-img-name" class="text-gray-500">Aucun fichier</span>
           </div>
-          <input type="file" id="answer_image_input" accept="image/*" class="hidden" data-folder="images_answers" />
+          <input type="file" id="answer_image_input" accept="image/*" class="hidden" data-folder="images_answers" webkitdirectory directory />          
         </div>
       </div>
 

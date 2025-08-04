@@ -330,24 +330,32 @@ function renderEditableCard(card, index) {
 
 
 // Ouvrir le sélecteur de fichier pour une carte
+// Modifiez la fonction browseImage pour gérer les sous-répertoires
 function browseImage(cardIndex, type) {
   const input = document.createElement("input");
   input.type = "file";
   input.accept = "image/*";
+  input.webkitdirectory = true; // Permet la sélection de répertoire
+  input.directory = true;
   input.onchange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const folder = type === "question" ? "images_questions" : "images_answers";
-      const filename = `${folder}/${file.name}`;
-      flashcards[cardIndex][type === "question" ? "question_content_image" : "answer_content_image"] = filename;
-      // Mettre à jour l'affichage
-      document.getElementById(`edit-${type[0]}-img-${cardIndex}`).textContent = filename;
-      renderFlashcards(); // rafraîchit l'image
+      // Garder la structure de sous-répertoire
+      const relativePath = file.webkitRelativePath || 
+                         `${folder}/${file.name}`;
+      const pathParts = relativePath.split('/');
+      // Enlever le premier dossier (images_questions ou images_answers)
+      const finalPath = pathParts.slice(1).join('/');
+      const fullPath = `${folder}/${finalPath}`;
+      
+      flashcards[cardIndex][type === "question" ? "question_content_image" : "answer_content_image"] = fullPath;
+      document.getElementById(`edit-${type[0]}-img-${cardIndex}`).textContent = fullPath;
+      renderFlashcards();
     }
   };
   input.click();
 }
-
 // Afficher toutes les flashcards
 function renderFlashcards() {
   const container = document.getElementById("flashcards-list");
